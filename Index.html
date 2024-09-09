@@ -1,0 +1,91 @@
+// Nome: Nathan das Chagas Gueler - Nº: 25 - Turma:2°B
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimento de Círculos</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script>
+        // Selecionar o canvas e definir o contexto de desenho
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Definir propriedades dos círculos
+        const circle1 = {
+            x: 50, // Posição inicial X (canto superior esquerdo)
+            y: 50, // Posição inicial Y (canto superior esquerdo)
+            radius: 20,
+            color: 'yellow',
+            dx: 1,
+            dy: 1
+        };
+
+        const circle2 = {
+            x: canvas.width - 50, // Posição inicial X (canto inferior direito)
+            y: canvas.height - 50, // Posição inicial Y (canto inferior direito)
+            radius: 20,
+            color: 'blue',
+            dx: -1,
+            dy: -1
+        };
+
+        // Função para desenhar um círculo
+        function drawCircle(circle) {
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+            ctx.fillStyle = circle.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Função para atualizar a posição dos círculos
+        function update() {
+            clearCanvas();
+
+            // Desenhar os círculos
+            drawCircle(circle1);
+            drawCircle(circle2);
+
+            // Atualizar a posição dos círculos
+            circle1.x += circle1.dx;
+            circle1.y += circle1.dy;
+
+            circle2.x += circle2.dx;
+            circle2.y += circle2.dy;
+
+            // Verificar se os círculos chegaram às bordas opostas
+            if (circle1.x - circle1.radius > canvas.width || circle1.y - circle1.radius > canvas.height) {
+                circle1.x = canvas.width - 50;
+                circle1.y = canvas.height - 50;
+            }
+
+            if (circle2.x + circle2.radius < 0 || circle2.y + circle2.radius < 0) {
+                circle2.x = 50;
+                circle2.y = 50;
+            }
+
+            // Repetir a animação
+            requestAnimationFrame(update);
+        }
+
+        // Iniciar a animação
+        update();
+    </script>
+</body>
+</html>
